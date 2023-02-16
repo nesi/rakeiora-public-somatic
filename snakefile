@@ -27,7 +27,7 @@ tumourSamples = ["tumour"]
 # Outputs:
 markDuplicateBams   = intermediateDirectory + "/{sample}.markDuplicates.bam"
 somaticSnps         = resultsDirectory + "/{tumourSample}.varscan.somatic.snp.vcf"
-markedSortedIndexes = intermediateDirectory + "/{sample}.markDuplicates.sorted.bam.bai"
+markedSortedIndexes = resultsDirectory + "/{sample}.markDuplicates.sorted.bam.bai"
 
 
 somaticMergedVCF = intermediateDirectory + "/{sample}.somatic.merged.vcf"
@@ -123,7 +123,7 @@ rule markedDuplicatesSort:
 	input:
 		unsortedBam = rules.markDuplicates.output.bam
 	output:
-		sortedBam = intermediateDirectory + "/{sample}.markDuplicates.sorted.bam",
+		sortedBam = resultsDirectory + "/{sample}.markDuplicates.sorted.bam",
 	log:
 		logsDirectory + "/{sample}.markDuplicatesSort.log"
 	threads:
@@ -142,7 +142,7 @@ rule markedDuplicatesIndex:
     input:
         sortedBam = rules.markedDuplicatesSort.output.sortedBam
     output:
-        bamIndex = intermediateDirectory  + "/{sample}.markDuplicates.sorted.bam.bai"
+        bamIndex = resultsDirectory  + "/{sample}.markDuplicates.sorted.bam.bai"
     log:
         logsDirectory + "/{sample}.markDuplicatesIndex.log"
     container:
@@ -158,8 +158,8 @@ rule markedDuplicatesIndex:
 ########################################### Pile up #############################################
 rule somaticPileUp:
     input:
-        normalBam = intermediateDirectory + "/" + normal + ".markDuplicates.sorted.bam",
-        tumourBam = intermediateDirectory + "/{tumourSample}.markDuplicates.sorted.bam",
+        normalBam = resultsDirectory + "/" + normal + ".markDuplicates.sorted.bam",
+        tumourBam = resultsDirectory + "/{tumourSample}.markDuplicates.sorted.bam",
         reference = referenceDirectory + "/" + referenceFile
     output:
         somaticPileUp = intermediateDirectory + "/{tumourSample}.somatic.pileup"
