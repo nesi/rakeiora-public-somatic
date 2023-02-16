@@ -3,6 +3,7 @@ configfile: "inputs.yaml"
 #
 rawDataDirectory      = config["rawDataDirectory"]
 intermediateDirectory = config["intermediateDirectory"]
+resultsDirectory      = config["resultsDirectory"]
 referenceDirectory    = config["referenceDirectory"]
 referenceFile         = config["referenceFile"]
 singularityDirectory  = config["singularityDirectory"]
@@ -25,7 +26,7 @@ tumourSamples = ["tumour"]
 #
 # Outputs:
 markDuplicateBams   = intermediateDirectory + "/{sample}.markDuplicates.bam"
-somaticSnps         = intermediateDirectory + "/{tumourSample}.varscan.somatic.snp.vcf"
+somaticSnps         = resultsDirectory + "/{tumourSample}.varscan.somatic.snp.vcf"
 markedSortedIndexes = intermediateDirectory + "/{sample}.markDuplicates.sorted.bam.bai"
 
 
@@ -183,8 +184,8 @@ rule varscanSomatic:
     input:
         pileup = rules.somaticPileUp.output.somaticPileUp
     output:
-        varscanSnpVcf = intermediateDirectory + "/{tumourSample}.varscan.somatic.snp.vcf",
-        varscanIndelVcf = intermediateDirectory + "/{tumourSample}.varscan.somatic.indel.vcf"
+        varscanSnpVcf = resultsDirectory + "/{tumourSample}.varscan.somatic.snp.vcf",
+        varscanIndelVcf = resultsDirectory + "/{tumourSample}.varscan.somatic.indel.vcf"
 #        varscanSnpVcf = report(intermediateDirectory + "/{tumourSample}.varscan.somatic.snp.vcf",caption="report/caption_snpvcf.rst",category="VCF files"),
 #        varscanIndelVcf = report(intermediateDirectory + "/{tumourSample}.varscan.somatic.indel.vcf",caption="report/caption_indelvcf.rst",category="VCF files")
     log:
